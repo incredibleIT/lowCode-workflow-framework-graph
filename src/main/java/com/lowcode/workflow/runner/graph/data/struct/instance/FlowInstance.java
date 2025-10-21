@@ -1,9 +1,8 @@
-package com.lowcode.workflow.runner.graph.instance;
+package com.lowcode.workflow.runner.graph.data.struct.instance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.lowcode.workflow.runner.graph.handler.JsonTypeHandler;
-import com.lowcode.workflow.runner.graph.template.Flow;
 import lombok.Data;
 import lombok.Getter;
 

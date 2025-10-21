@@ -1,4 +1,4 @@
-package com.lowcode.workflow.runner.graph.template;
+package com.lowcode.workflow.runner.graph.data.struct.template;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.FieldFill;
