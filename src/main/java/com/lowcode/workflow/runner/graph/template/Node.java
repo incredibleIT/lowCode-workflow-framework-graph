@@ -1,6 +1,11 @@
 package com.lowcode.workflow.runner.graph.template;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.lowcode.workflow.runner.graph.handler.JsonTypeHandler;
 import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -46,11 +51,13 @@ public class Node {
      * 业务数据，存储为 JSON
      * 建议使用 Map<String, Object> 便于动态读取
      */
+    @TableField(typeHandler = JsonTypeHandler.class)
     private Map<String, Object> data;
 
     /**
      * CSS 样式对象，如 { width: 200, height: 100, backgroundColor: "#f0f0f0" }
      */
+    @TableField(typeHandler = JsonTypeHandler.class)
     private Map<String, Object> style;
 
     /**
@@ -141,15 +148,25 @@ public class Node {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
     /**
      * 更新时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;
 
 
+    @Getter
     public enum Position {
-        top, bottom, left, right
+        top("top"), bottom("bottom"), left("left"), right("right");
+
+        @EnumValue
+        private final String value;
+
+        Position(String value) {
+            this.value = value;
+        }
     }
 }

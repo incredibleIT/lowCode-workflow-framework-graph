@@ -1,0 +1,4 @@
+mybatis-plus:
+  configuration:
+    # 自动映射枚举类型
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
