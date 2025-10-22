@@ -10,6 +10,8 @@ import com.lowcode.workflow.runner.graph.service.FlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 // TODO 用户ID
 @RestController
@@ -37,7 +39,8 @@ public class FlowController {
      * @return 已定义的流程模版
      */
     @GetMapping("/page")
-    public PageResult<Flow> page(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
+    public PageResult<Flow> page(@RequestParam(defaultValue = "1") @Min(value = 1, message = "页数不能小于1") Integer page,
+                                 @RequestParam(defaultValue = "10") @Min(value = 1, message = "每页数量不能小于1") @Max(value = 100, message = "每页数量不能大于100") Integer size) {
         return PageResult.from(flowService.page(new Page<>(page, size)));
     }
 

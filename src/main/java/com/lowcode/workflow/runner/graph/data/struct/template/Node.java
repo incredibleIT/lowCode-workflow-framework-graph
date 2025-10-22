@@ -3,6 +3,7 @@ package com.lowcode.workflow.runner.graph.data.struct.template;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lowcode.workflow.runner.graph.handler.JsonTypeHandler;
 import lombok.Data;
 import lombok.Getter;
@@ -156,6 +157,9 @@ public class Node {
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;
+
+    @TableField(exist = false)
+    private NodeType nodeType;
 
 
     @Getter
