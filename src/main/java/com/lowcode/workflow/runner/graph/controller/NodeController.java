@@ -7,7 +7,10 @@ import com.lowcode.workflow.runner.graph.exception.custom.CustomException;
 import com.lowcode.workflow.runner.graph.result.Result;
 import com.lowcode.workflow.runner.graph.service.NodeService;
 import com.lowcode.workflow.runner.graph.service.NodeTypeService;
+import com.lowcode.workflow.runner.graph.validation.CreatGroup;
+import com.lowcode.workflow.runner.graph.validation.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -59,7 +62,7 @@ public class NodeController {
     }
 
     @PostMapping("/create")
-    public Result<Void> create(@RequestBody Node node) {
+    public Result<Void> create(@Validated(CreatGroup.class) @RequestBody Node node) {
         nodeService.save(node);
         return Result.success();
     }
@@ -70,7 +73,7 @@ public class NodeController {
      * @return 空结果
      */
     @PutMapping("/update")
-    public Result<Void> update(@RequestBody @NotNull(message = "节点信息不能为空") Node node) {
+    public Result<Void> update(@Validated(UpdateGroup.class) @RequestBody Node node) {
         nodeService.updateById(node);
         return Result.success();
     }

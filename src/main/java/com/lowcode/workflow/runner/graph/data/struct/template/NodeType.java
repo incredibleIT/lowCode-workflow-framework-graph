@@ -2,9 +2,15 @@ package com.lowcode.workflow.runner.graph.data.struct.template;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.lowcode.workflow.runner.graph.handler.JsonTypeHandler;
+import com.lowcode.workflow.runner.graph.validation.CreatGroup;
+import com.lowcode.workflow.runner.graph.validation.UpdateGroup;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -14,26 +20,32 @@ import java.util.Map;
  * 描述每种节点的配置结构、执行器、UI 等信息
  */
 @Data
+@TableName("node_types")
 public class NodeType {
 
     /**
      * 节点类型唯一标识，如 http_request, condition
      */
+    @TableId
+    @NotBlank(groups = {CreatGroup.class, UpdateGroup.class}, message = "节点类型键不能为空")
     private String typeKey;
 
     /**
      * 显示名称
      */
+    @NotBlank(groups = {CreatGroup.class}, message = "节点类型名称不能为空")
     private String name;
 
     /**
      * 描述
      */
+    @NotBlank(groups = {CreatGroup.class}, message = "节点类型描述不能为空")
     private String description;
 
     /**
      * 节点类型的分类, 例如基础, 网络, 数据库
      */
+    @NotBlank(groups = {CreatGroup.class}, message = "节点类型分类不能为空")
     private String category;
 
     /**
@@ -45,6 +57,7 @@ public class NodeType {
      * }
      */
     @TableField(typeHandler = JsonTypeHandler.class)
+    @NotNull(groups = {CreatGroup.class}, message = "节点类型配置模式不能为空")
     private Map<String, Object> configSchema;
 
     /**
@@ -60,6 +73,7 @@ public class NodeType {
     /**
      * 后端执行器类全限定名（如 com.example.executor.HttpRequestExecutor）
      */
+    @NotBlank(groups = {CreatGroup.class}, message = "节点类型执行器类全限定类名不能为空")
     private String executorClass;
 
     /**

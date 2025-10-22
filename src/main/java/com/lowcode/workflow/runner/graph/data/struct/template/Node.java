@@ -1,13 +1,13 @@
 package com.lowcode.workflow.runner.graph.data.struct.template;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.baomidou.mybatisplus.annotation.*;
 import com.lowcode.workflow.runner.graph.handler.JsonTypeHandler;
+import com.lowcode.workflow.runner.graph.validation.CreatGroup;
+import com.lowcode.workflow.runner.graph.validation.UpdateGroup;
 import lombok.Data;
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -16,31 +16,38 @@ import java.util.Map;
  * 对应数据库表：nodes
  */
 @Data
+@TableName("nodes")
 public class Node {
 
     /**
      * 节点唯一ID，对应 Vue Flow 的 node.id
      */
+    @TableId
+    @NotBlank(groups = {CreatGroup.class, UpdateGroup.class}, message = "节点ID不能为空")
     private String id;
 
     /**
      * 流程唯一ID，全局唯一
      */
+    @NotBlank(groups = {CreatGroup.class}, message = "流程ID不能为空")
     private String flowId;
 
     /**
      * 节点 X 坐标
      */
+    @NotBlank(groups = {CreatGroup.class}, message = "节点X坐标不能为空")
     private Double positionX;
 
     /**
      * 节点 Y 坐标
      */
+    @NotBlank(groups = {CreatGroup.class}, message = "节点Y坐标不能为空")
     private Double positionY;
 
     /**
      * 节点类型：input/output/default/自定义
      */
+    @NotBlank(groups = {CreatGroup.class}, message = "节点类型不能为空")
     private String type;
 
     /**
@@ -52,6 +59,7 @@ public class Node {
      * 业务数据，存储为 JSON
      * 建议使用 Map<String, Object> 便于动态读取
      */
+    @NotBlank(groups = {CreatGroup.class}, message = "业务数据不能为空")
     @TableField(typeHandler = JsonTypeHandler.class)
     private Map<String, Object> data;
 

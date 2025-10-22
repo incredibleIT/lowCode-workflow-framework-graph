@@ -7,11 +7,16 @@ import com.lowcode.workflow.runner.graph.exception.custom.CustomException;
 import com.lowcode.workflow.runner.graph.result.PageResult;
 import com.lowcode.workflow.runner.graph.result.Result;
 import com.lowcode.workflow.runner.graph.service.FlowService;
+import com.lowcode.workflow.runner.graph.service.NodeService;
+import com.lowcode.workflow.runner.graph.validation.CreatGroup;
+import com.lowcode.workflow.runner.graph.validation.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 // TODO 用户ID
 @RestController
@@ -20,6 +25,8 @@ public class FlowController {
 
     @Autowired
     private FlowService flowService;
+    @Autowired
+    private NodeService nodeService;
 
 
     /**
@@ -51,7 +58,7 @@ public class FlowController {
      * @return 流程详情
      */
     @GetMapping("/detail/{flowId}")
-    public Result<Flow> detail(@PathVariable Integer flowId) {
+    public Result<Flow> detail(@PathVariable("flowId") @NotNull(message = "流程ID不能为空") Integer flowId) {
         Flow flow = flowService.getById(flowId);
         if (flow == null) {
             throw new CustomException("这里是一个业务异常, 原因: 流程不存在");
@@ -64,11 +71,16 @@ public class FlowController {
      * @param flow 流程模版
      */
     @PostMapping("/create")
-    public Result<Void> create(@RequestBody Flow flow) {
+    public Result<Void> create(@Validated(CreatGroup.class) @RequestBody Flow flow) {
         if (flow == null) {
             throw new CustomException("这里是一个业务异常, 原因: 流程模版不能为空");
         }
         flowService.save(flow);
+
+        // TODO 级联保存所有节点和边
+        nodeService.saveBatch(flow.getNodes());
+
+
         return Result.success();
     }
 
@@ -78,7 +90,7 @@ public class FlowController {
      * @param flow 流程模版
      */
     @PutMapping("/update")
-    public Result<Void> update(@RequestBody Flow flow) {
+    public Result<Void> update(@Validated(UpdateGroup.class) @RequestBody Flow flow) {
         if (flow == null) {
             throw new CustomException("这里是一个业务异常, 原因: 流程模版不能为空");
         }
@@ -91,10 +103,7 @@ public class FlowController {
      * @param flowId 流程ID
      */
     @DeleteMapping("/delete/{flowId}")
-    public Result<Void> delete(@PathVariable("flowId") Integer flowId) {
-        if (flowId == null) {
-            throw new CustomException("这里是一个业务异常, 原因: 流程ID不能为空");
-        }
+    public Result<Void> delete(@PathVariable("flowId") @NotNull(message = "流程ID不能为空") Integer flowId) {
         flowService.removeById(flowId);
         // TODO 级联删除所有关联的节点和边
         return Result.success();

@@ -13,9 +13,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/lowcode_kernel_flow?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://60.205.252.151:3306/lowcode_kernel_flow?useSSL=false&useUnicode=true&characterEncoding=utf-8
     username: root
-    password: yy3908533
+    password: your_secure_password
     hikari:
       idle-timeout: 600000
       max-lifetime: 1800000
