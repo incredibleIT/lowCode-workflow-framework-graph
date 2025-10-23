@@ -2,12 +2,16 @@ package com.lowcode.workflow.runner.graph.data.struct.instance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.lowcode.workflow.runner.graph.data.struct.template.Flow;
+import com.lowcode.workflow.runner.graph.data.struct.template.Node;
 import com.lowcode.workflow.runner.graph.handler.JsonTypeHandler;
 import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 流程运行实例实体类
@@ -17,6 +21,22 @@ import java.util.Map;
 
 @Data
 public class FlowInstance {
+
+    /**
+     * 通过流程定义模版创造流程实例
+     * @param flow 流程定义模版
+     */
+    public FlowInstance(Flow flow) {
+        this.id = UUID.randomUUID().toString();
+        this.flowId = flow.getId();
+        this.status = FlowInstanceStatus.running;
+        this.triggeredBy = flow.getOwnerId();
+        this.triggerType = flow.getTriggerType();
+        // 流程级配置，如超时时间、重试策略、全局变量定义等
+        this.inputParams = flow.getConfig();
+        this.startedAt = LocalDateTime.now();
+        this.nodes = flow.getNodes();
+    }
 
     /**
      * 流程实例唯一ID（如 UUID 或业务生成的 trace ID）
@@ -81,6 +101,9 @@ public class FlowInstance {
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;
+
+    @TableField(exist = false)
+    private List<Node> nodes;
 
     @Getter
     public enum FlowInstanceStatus {

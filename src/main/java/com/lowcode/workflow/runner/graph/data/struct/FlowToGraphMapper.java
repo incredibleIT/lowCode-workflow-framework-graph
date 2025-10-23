@@ -1,7 +1,7 @@
 package com.lowcode.workflow.runner.graph.data.struct;
 
 
-import com.lowcode.workflow.runner.graph.Node;
+import com.lowcode.workflow.runner.graph.data.struct.template.Node;
 import org.jgraph.graph.Edge;
 import org.jgrapht.Graph;
 import org.jgrapht.traverse.DepthFirstIterator;

@@ -108,4 +108,14 @@ public class FlowController {
         // TODO 级联删除所有关联的节点和边
         return Result.success();
     }
+
+
+    /**
+     * 运行流程
+     */
+    @PostMapping("/run")
+    public Result<Void> run(@RequestBody Flow flow) {
+        flowService.start(flow);
+        return Result.success();
+    }
 }

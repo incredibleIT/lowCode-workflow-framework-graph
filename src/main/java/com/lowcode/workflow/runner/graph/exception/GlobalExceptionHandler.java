@@ -1,6 +1,7 @@
 package com.lowcode.workflow.runner.graph.exception;
 
 
+import com.lowcode.workflow.runner.graph.exception.sys.SystemException;
 import com.lowcode.workflow.runner.graph.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,6 +46,13 @@ public class GlobalExceptionHandler {
 
         log.error("请求参数校验失败: {}", message);
         return Result.error("参数校验错误: " + message);
+    }
+
+
+    @ExceptionHandler(SystemException.class)
+    public Result<Void> handleSystemException(SystemException e) {
+        log.error("系统异常: {}", e.getMessage());
+        return Result.error(e.getCode(), "这是一次系统异常: " + e.getMessage());
     }
 
     /**

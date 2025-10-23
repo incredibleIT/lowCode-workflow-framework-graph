@@ -4,4 +4,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lowcode.workflow.runner.graph.data.struct.template.Flow;
 
 public interface FlowService extends IService<Flow> {
+    void start(Flow flow);
 }

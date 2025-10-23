@@ -1,8 +1,8 @@
 package com.lowcode.workflow.runner.graph.service;
 
 
-import com.lowcode.workflow.runner.graph.Node;
 import com.lowcode.workflow.runner.graph.data.struct.FlowToGraphMapper;
+import com.lowcode.workflow.runner.graph.data.struct.template.Node;
 import org.jgraph.graph.Edge;
 import org.jgrapht.Graph;
 import org.springframework.stereotype.Service;
